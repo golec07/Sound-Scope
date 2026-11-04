@@ -1,0 +1,19 @@
+[
+  {
+    "ts": "2026-01-20T19:00:00Z",
+    "platform": "windows",
+    "ms_played": 90000,
+    "conn_country": "GB",
+    "master_metadata_track_name": null,
+    "master_metadata_album_artist_name": null,
+    "master_metadata_album_album_name": null,
+    "spotify_track_uri": null,
+    "episode_name": "Sample Video Episode",
+    "episode_show_name": "Sample Show",
+    "reason_start": "clickrow",
+    "reason_end": "endplay",
+    "shuffle": false,
+    "skipped": false,
+    "offline": false
+  }
+]
