@@ -15,9 +15,16 @@ def load_history(folder):
 
     return history 
 
-        
 
-def total_hours(history):
+
+def music_only(history):
+
+    return [play for play in history if play['master_metadata_track_name'] is not None]
+
+
+
+
+def total_hours(music):
 
     total_ms = sum(play['ms_played'] for play in history)
 
@@ -30,5 +37,6 @@ def total_hours(history):
 
 
 history = load_history(folder)
+music = music_only(history)
 total_hrs = total_hours(history)
-print(total_hrs)
+print(len(history)-len(music))
