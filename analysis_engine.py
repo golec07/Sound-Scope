@@ -1,8 +1,10 @@
 from pathlib import Path
 import json
-
+from collections import Counter
 
 folder = Path('my_spotify_data/Spotify Extended Streaming History')
+
+
 
 
 def load_history(folder):
@@ -17,9 +19,11 @@ def load_history(folder):
 
 
 
+
 def music_only(history):
 
     return [play for play in history if play['master_metadata_track_name'] is not None]
+
 
 
 
@@ -33,29 +37,36 @@ def total_hours(music):
 
 
 
+
+
 def top_artists(music,n=10):
 
-    artists = {}
+    # Counter iterates over an iterable and creates a dictionary where each key is an item from the iterable and its value is the number of times that item has been seen. 
+    return Counter(play['master_metadata_album_artist_name'] 
+                   for play in music).most_common(n)
 
-    # Create a dictionary of artists and the amount of times they have been listened to
-    for play in music:
-        artist = play['master_metadata_album_artist_name']
 
-        # Rather than the if/else statement, now .get() returns the value of the artists count in the artists dic, if not there, it sets the default value to 0
-        artists[artist] = artists.get(artist, 0) + 1
 
-    # To get key value pairs you need to use .items() to turn them into tuples, iterating directly over a dic only gives you the keys
-    sorted_artists = dict(sorted(artists.items(), key=lambda x: x[1], reverse=True))
-    
-    # Create a list of the first 10 artist key value pairs and turn that into a dictionary, as if you want key value pairs, you need the tuples
-    return dict(list(sorted_artists.items())[:n])
 
-    
+
+def top_tracks(music,n=10):
+
+    # List comprehension - add the tuple into the list song for each play
+    songs = [(play['master_metadata_track_name'], 
+              play['master_metadata_album_artist_name']) for play in music]
+
+    # Use Counter() to create the dicitonary for {song:count}, then most_common(n) returns a list of (song, count) pairs of the n most common
+    return Counter(songs).most_common(n)
+
+
+
+
 
 
 history = load_history(folder)
 music = music_only(history)
-total_hrs = total_hours(history)
+total_hrs = total_hours(music)
 n = 10
-top_10 = top_artists(music,n)
-print(top_10)
+top_n_artists = top_artists(music)
+top_n_tracks = top_tracks(music)
+print(top_n_tracks)
